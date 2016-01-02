@@ -1,5 +1,5 @@
-Meteor.publish("parties", function () {
-  return Parties.find({
+Meteor.publish("parties", function (options) {
+  let selector = {
     $or: [
       {
         $and: [
@@ -14,5 +14,8 @@ Meteor.publish("parties", function () {
         ]
       }
     ]
-  });
+  };
+
+  Counts.publish(this, 'numberOfParties', Parties.find(selector), {noReady: true});
+  return Parties.find(selector, options);
 });
